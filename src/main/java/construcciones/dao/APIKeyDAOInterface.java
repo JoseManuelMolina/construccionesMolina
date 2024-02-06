@@ -12,8 +12,10 @@ public interface APIKeyDAOInterface {
     APIKey buscarPorKey(String key);
     APIKey usarKey(Long idKey);
     APIKey activarKey(Long idKey);
-    boolean activada(Long idKey);
+    APIKey desactivarKey(Long idKey);
+    Boolean activada(Long idKey);
+    Long numeroKeys();
     APIKey create();
-    APIKey update();
-    boolean delete(APIKey key);
+    APIKey update(APIKey apiKey);
+    boolean delete(Long id);
 }

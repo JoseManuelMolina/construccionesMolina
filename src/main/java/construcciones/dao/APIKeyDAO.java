@@ -1,11 +1,11 @@
 package construcciones.dao;
 
-import com.google.protobuf.Api;
 import construcciones.entidades.APIKey;
 import construcciones.utils.HibernateUtil;
 import org.hibernate.Session;
 
 import javax.persistence.PersistenceException;
+import org.hibernate.query.Query;
 import java.util.List;
 
 public class APIKeyDAO implements APIKeyDAOInterface{
@@ -29,32 +29,120 @@ public class APIKeyDAO implements APIKeyDAOInterface{
 
     @Override
     public List<APIKey> devolverTodas(int pagina, int tamaño) {
-        return null;
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        Query query = session.createQuery("from APIKey", APIKey.class);
+        query.setMaxResults(tamaño);
+        query.setFirstResult((pagina-1)*tamaño);
+        List<APIKey> todos = query.list();
+        session.close();
+
+        return todos;
+    }
+
+    @Override
+    public Long numeroKeys() {
+        try(Session session = HibernateUtil.getSessionFactory().openSession()){
+            Long numero = session.createQuery("select count(*) from APIKey", Long.class).uniqueResult();
+            session.close();
+            return numero;
+        }catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
+
     }
 
     @Override
     public APIKey buscarId(Long id) {
-        return null;
+        try(Session session = HibernateUtil.getSessionFactory().openSession()){
+            APIKey apiKey = session.find(APIKey.class,id);
+            session.close();
+            return apiKey;
+        }catch(Exception e){
+            e.printStackTrace();
+            return null;
+        }
     }
 
     @Override
     public APIKey buscarPorKey(String key) {
-        return null;
+        try(Session session = HibernateUtil.getSessionFactory().openSession()){
+            Query<APIKey> query = session.createQuery("from APIKey where key like :busqueda");
+            APIKey filtro = query.setParameter("busqueda", "%"+key+"%").uniqueResult();
+            return filtro;
+        }catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
     }
 
     @Override
     public APIKey usarKey(Long idKey) {
-        return null;
+        Session session = HibernateUtil.getSessionFactory().openSession();
+
+        APIKey apiKey = buscarId(idKey);
+        try{
+            session.beginTransaction();
+            apiKey.setUsados(apiKey.getUsados()+1);
+            session.update(apiKey);
+            session.getTransaction().commit();
+        }catch (PersistenceException e){
+            e.printStackTrace();
+            session.getTransaction().rollback();
+        }
+        session.close();
+        return apiKey;
     }
 
     @Override
     public APIKey activarKey(Long idKey) {
-        return null;
+        Session session = HibernateUtil.getSessionFactory().openSession();
+
+        APIKey apiKey = buscarId(idKey);
+        try{
+            session.beginTransaction();
+            apiKey.setActivada(true);
+            session.update(apiKey);
+            session.getTransaction().commit();
+        }catch (PersistenceException e){
+            e.printStackTrace();
+            session.getTransaction().rollback();
+        }
+        session.close();
+        return apiKey;
     }
 
     @Override
-    public boolean activada(Long idKey) {
-        return false;
+    public APIKey desactivarKey(Long idKey) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+
+        APIKey apiKey = buscarId(idKey);
+        try{
+            session.beginTransaction();
+            apiKey.setActivada(false);
+            session.update(apiKey);
+            session.getTransaction().commit();
+        }catch (PersistenceException e){
+            e.printStackTrace();
+            session.getTransaction().rollback();
+        }
+        session.close();
+        return apiKey;
+    }
+
+    @Override
+    public Boolean activada(Long idKey) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+
+        try{
+            APIKey apiKey = buscarId(idKey);
+            return apiKey.getActivada();
+        }catch (PersistenceException e){
+            e.printStackTrace();
+            session.getTransaction().rollback();
+        }
+        session.close();
+        return null;
     }
 
     @Override
@@ -75,12 +163,40 @@ public class APIKeyDAO implements APIKeyDAOInterface{
     }
 
     @Override
-    public APIKey update() {
-        return null;
+    public APIKey update(APIKey apiKey) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+
+        try{
+            session.beginTransaction();
+            session.update(apiKey);
+            session.getTransaction().commit();
+        }catch (PersistenceException e){
+            e.printStackTrace();
+            session.getTransaction().rollback();
+        }
+        session.close();
+        return apiKey;
     }
 
     @Override
-    public boolean delete(APIKey key) {
-        return false;
+    public boolean delete(Long id) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        try{
+            session.beginTransaction();
+            APIKey apiKey = buscarId(id);
+            if(apiKey != null){
+                session.delete(apiKey);
+            }else{
+                return false;
+            }
+            session.getTransaction().commit();
+        }catch (PersistenceException e){
+            e.printStackTrace();
+            session.getTransaction().rollback();
+            return false;
+        }finally {
+            session.close();
+        }
+        return true;
     }
 }
