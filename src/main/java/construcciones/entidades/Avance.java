@@ -3,6 +3,8 @@ package construcciones.entidades;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "Avances")
@@ -27,12 +29,19 @@ public class Avance implements Serializable {
     @JoinColumn(name = "id_proyecto")
     private Proyecto proyecto;
 
+    @ManyToMany
+    @JoinTable(name = "avance_material",
+            joinColumns = @JoinColumn(name="id_avance"),
+            inverseJoinColumns = @JoinColumn(name = "id_material"))
+    private List<Material> materiales;
+
     public Avance(Long id, Date fecha, String descripcion, int porcentajeCompletado, Proyecto proyecto) {
         this.id = id;
         this.fecha = fecha;
         this.descripcion = descripcion;
         this.porcentajeCompletado = porcentajeCompletado;
         this.proyecto = proyecto;
+        this.materiales = new ArrayList<>();
     }
 
     public Avance() {
