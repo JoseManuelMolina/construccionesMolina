@@ -18,4 +18,5 @@ INSERT INTO proyectos (categoria, cliente, fecha_inicio, nombre, plano, presupue
 INSERT INTO proyectos (categoria, cliente, fecha_inicio, nombre, plano, presupuesto) VALUES ('Parque', 'Proin Velit Corporation', '2022/06/02', 'Oamaru', 'https://firebasestorage.googleapis.com/v0/b/construccionesmolina-1beef.appspot.com/o/plano18.jpg?alt=media', 35691);
 INSERT INTO proyectos (categoria, cliente, fecha_inicio, nombre, plano, presupuesto) VALUES ('Parque', 'Blandit Nam Corp.', '2023/10/23', 'Dreux', 'https://firebasestorage.googleapis.com/v0/b/construccionesmolina-1beef.appspot.com/o/plano19.png?alt=media', 72465);
 INSERT INTO proyectos (categoria, cliente, fecha_inicio, nombre, plano, presupuesto) VALUES ('Polideportivo', 'Auctor Vitae Foundation', '2022/07/22', 'Arequipa', 'https://firebasestorage.googleapis.com/v0/b/construccionesmolina-1beef.appspot.com/o/plano20.png?alt=media', 80302);
-INSERT INTO apikeys (activada, fecha_creada, api_key,usados, usos_disponibles) VALUES ( true,  '2024-02-03', 'abc123', 0, 10);
+INSERT INTO apikeys (activada, fecha_creada, api_key,usados, usos_disponibles) VALUES ( true,  '2024-02-03', '0tEOWr39mZd4Bqsm55f5', 0, 50);
+INSERT INTO apikeys (activada, fecha_creada, api_key,usados, usos_disponibles) VALUES ( true,  '2024-02-03', 'K17gKqlzm0xkclRVPgyk', 0, 50);
