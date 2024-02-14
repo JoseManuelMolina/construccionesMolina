@@ -23,5 +23,15 @@ INSERT INTO proyectos (categoria, id_cliente, fecha_inicio, nombre, plano, presu
 INSERT INTO proyectos (categoria, id_cliente, fecha_inicio, nombre, plano, presupuesto) VALUES ('Parque', 1, '2023/10/23', 'Dreux', 'https://firebasestorage.googleapis.com/v0/b/construccionesmolina-1beef.appspot.com/o/plano19.png?alt=media', 72465);
 INSERT INTO proyectos (categoria, id_cliente, fecha_inicio, nombre, plano, presupuesto) VALUES ('Polideportivo', 3, '2022/07/22', 'Arequipa', 'https://firebasestorage.googleapis.com/v0/b/construccionesmolina-1beef.appspot.com/o/plano20.png?alt=media', 80302);
 
+INSERT INTO avances (descripcion, fecha, porcentaje_completado, ID_proyecto) VALUES ('Avance 1', '2024-02-14', 15, 6);
+INSERT INTO avances (descripcion, fecha, porcentaje_completado, ID_proyecto) VALUES ('Avance 2', '2024-02-15', 35, 9);
+INSERT INTO avances (descripcion, fecha, porcentaje_completado, ID_proyecto) VALUES ('Avance 3', '2024-02-16', 45, 3);
+INSERT INTO avances (descripcion, fecha, porcentaje_completado, ID_proyecto) VALUES ('Avance 4', '2024-02-17', 60, 12);
+INSERT INTO avances (descripcion, fecha, porcentaje_completado, ID_proyecto) VALUES ('Avance 5', '2024-02-18', 25, 2);
+INSERT INTO avances (descripcion, fecha, porcentaje_completado, ID_proyecto) VALUES ('Avance 6', '2024-02-19', 50, 8);
+INSERT INTO avances (descripcion, fecha, porcentaje_completado, ID_proyecto) VALUES ('Avance 7', '2024-02-20', 70, 10);
+INSERT INTO avances (descripcion, fecha, porcentaje_completado, ID_proyecto) VALUES ('Avance 8', '2024-02-21', 80, 5);
+
+
 INSERT INTO apikeys (activada, fecha_creada, api_key,usados, usos_disponibles) VALUES ( true,  '2024-02-03', '0tEOWr39mZd4Bqsm55f5', 0, 50);
 INSERT INTO apikeys (activada, fecha_creada, api_key,usados, usos_disponibles) VALUES ( true,  '2024-02-03', 'K17gKqlzm0xkclRVPgyk', 0, 50);

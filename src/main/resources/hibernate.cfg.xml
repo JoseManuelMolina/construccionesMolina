@@ -23,6 +23,7 @@
         <!-- entities -->
         <mapping class="construcciones.entidades.Cliente"/>
         <mapping class="construcciones.entidades.Proyecto"/>
+        <mapping class="construcciones.entidades.Avance"/>
         <mapping class="construcciones.entidades.APIKey"/>
 
 
