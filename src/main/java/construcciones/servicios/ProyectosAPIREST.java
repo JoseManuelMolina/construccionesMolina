@@ -30,6 +30,12 @@ public class ProyectosAPIREST {
             response.type("application/json");
         });
 
+        Spark.exception(Exception.class, (e, req, res) -> {
+            e.printStackTrace(); // Imprime la excepción en la consola
+            res.status(500); // Establece el código de estado HTTP 500
+            res.body("Ha ocurrido un error, vuelve a intentarlo"); // Mensaje de error para el cliente
+        });
+
 //        Endpoint para obtener todos los proyectos
         Spark.get("/proyectos", (request, response) -> {
                 List<Proyecto> proyectos = dao.devolverTodos();

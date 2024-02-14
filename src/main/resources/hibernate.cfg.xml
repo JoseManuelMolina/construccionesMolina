@@ -21,6 +21,7 @@
         <property name="hibernate.hbm2ddl.import_files">import.sql,data.sql</property>
 
         <!-- entities -->
+        <mapping class="construcciones.entidades.Cliente"/>
         <mapping class="construcciones.entidades.Proyecto"/>
         <mapping class="construcciones.entidades.APIKey"/>
 

@@ -30,13 +30,14 @@ public class Proyecto implements Serializable {
     @Column(name = "categoria", length = 100, nullable = true)
     private String categoria;
 
-    @Column(name = "cliente", length = 100, nullable = false)
-    private String cliente;
+    @ManyToOne
+    @JoinColumn(name = "id_cliente", foreignKey = @ForeignKey(name = "fk_proyecto_cliente"))
+    private Cliente cliente;
 
     public Proyecto() {
     }
 
-    public Proyecto(Long id, String nombre, Double presupuesto, Date fechaInicio, String plano, String categoria, String cliente) {
+    public Proyecto(Long id, String nombre, Double presupuesto, Date fechaInicio, String plano, String categoria, Cliente cliente) {
         this.id = id;
         this.nombre = nombre;
         this.presupuesto = presupuesto;
@@ -94,11 +95,11 @@ public class Proyecto implements Serializable {
         this.categoria = categoria;
     }
 
-    public String getCliente() {
+    public Cliente getCliente() {
         return cliente;
     }
 
-    public void setCliente(String cliente) {
+    public void setCliente(Cliente cliente) {
         this.cliente = cliente;
     }
 
