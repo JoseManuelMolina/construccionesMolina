@@ -13,7 +13,7 @@ INSERT INTO proyectos (categoria, id_cliente, fecha_inicio, nombre, plano, presu
 INSERT INTO proyectos (categoria, id_cliente, fecha_inicio, nombre, plano, presupuesto) VALUES ('Apartamento', 3, '2023/07/26', 'Gorontalo', 'https://firebasestorage.googleapis.com/v0/b/construccionesmolina-1beef.appspot.com/o/plano9.jpg?alt=media', 87162);
 INSERT INTO proyectos (categoria, id_cliente, fecha_inicio, nombre, plano, presupuesto) VALUES ('Parque', 3, '2021/02/09', 'Elverum', 'https://firebasestorage.googleapis.com/v0/b/construccionesmolina-1beef.appspot.com/o/plano10.png?alt=media', 39903);
 INSERT INTO proyectos (categoria, id_cliente, fecha_inicio, nombre, plano, presupuesto) VALUES ('Parque', 1, '2019/12/23', 'Gwangyang', 'https://firebasestorage.googleapis.com/v0/b/construccionesmolina-1beef.appspot.com/o/plano11.png?alt=media', 60869);
-INSERT INTO proyectos (categoria, id_cliente, fecha_inicio, nombre, plano, presupuesto) VALUES ('Parque', 2, 'Lauder', 'https://firebasestorage.googleapis.com/v0/b/construccionesmolina-1beef.appspot.com/o/plano12.png?alt=media', 30348);
+INSERT INTO proyectos (categoria, id_cliente, fecha_inicio, nombre, plano, presupuesto) VALUES ('Parque', 2, '2019/12/23','Lauder', 'https://firebasestorage.googleapis.com/v0/b/construccionesmolina-1beef.appspot.com/o/plano12.png?alt=media', 30348);
 INSERT INTO proyectos (categoria, id_cliente, fecha_inicio, nombre, plano, presupuesto) VALUES ('Apartamento', 2, '2022/08/27', 'San Giovanni in Galdo', 'https://firebasestorage.googleapis.com/v0/b/construccionesmolina-1beef.appspot.com/o/plano13.png?alt=media', 60719);
 INSERT INTO proyectos (categoria, id_cliente, fecha_inicio, nombre, plano, presupuesto) VALUES ('Apartamento', 2, '2022/12/18', 'Nizhyn', 'https://firebasestorage.googleapis.com/v0/b/construccionesmolina-1beef.appspot.com/o/plano14.png?alt=media', 63941);
 INSERT INTO proyectos (categoria, id_cliente, fecha_inicio, nombre, plano, presupuesto) VALUES ('Parque', 2, '2023/03/01', 'Kasur', 'https://firebasestorage.googleapis.com/v0/b/construccionesmolina-1beef.appspot.com/o/plano15.jpg?alt=media', 27299);
@@ -31,6 +31,32 @@ INSERT INTO avances (descripcion, fecha, porcentaje_completado, ID_proyecto) VAL
 INSERT INTO avances (descripcion, fecha, porcentaje_completado, ID_proyecto) VALUES ('Avance 6', '2024-02-19', 50, 8);
 INSERT INTO avances (descripcion, fecha, porcentaje_completado, ID_proyecto) VALUES ('Avance 7', '2024-02-20', 70, 10);
 INSERT INTO avances (descripcion, fecha, porcentaje_completado, ID_proyecto) VALUES ('Avance 8', '2024-02-21', 80, 5);
+
+INSERT INTO materiales (cantidad, coste, nombre) VALUES (1000, 50.00, 'Cemento');
+INSERT INTO materiales (cantidad, coste, nombre) VALUES (5000, 0.20, 'Ladrillos');
+INSERT INTO materiales (cantidad, coste, nombre) VALUES (2000, 30.00, 'Arena');
+INSERT INTO materiales (cantidad, coste, nombre) VALUES (800, 150.00, 'Acero');
+INSERT INTO materiales (cantidad, coste, nombre) VALUES (1500, 70.00, 'Madera');
+INSERT INTO materiales (cantidad, coste, nombre) VALUES (300, 25.00, 'Pintura');
+INSERT INTO materiales (cantidad, coste, nombre) VALUES (1200, 90.00, 'Varillas de Hierro');
+INSERT INTO materiales (cantidad, coste, nombre) VALUES (2000, 80.00, 'Hormigón');
+INSERT INTO materiales (cantidad, coste, nombre) VALUES (600, 45.00, 'Azulejos');
+INSERT INTO materiales (cantidad, coste, nombre) VALUES (100, 20.00, 'Placas de yeso');
+INSERT INTO materiales (cantidad, coste, nombre) VALUES (1800, 35.00, 'Grava');
+INSERT INTO materiales (cantidad, coste, nombre) VALUES (400, 40.00, 'Mortero');
+INSERT INTO materiales (cantidad, coste, nombre) VALUES (300, 60.00, 'Aislante térmico');
+INSERT INTO materiales (cantidad, coste, nombre) VALUES (700, 15.00, 'Tuberías de PVC');
+INSERT INTO materiales (cantidad, coste, nombre) VALUES (250, 70.00, 'Láminas de aluminio');
+INSERT INTO materiales (cantidad, coste, nombre) VALUES (500, 55.00, 'Cables eléctricos');
+INSERT INTO materiales (cantidad, coste, nombre) VALUES (900, 25.00, 'Piedra triturada');
+INSERT INTO materiales (cantidad, coste, nombre) VALUES (350, 40.00, 'Tela asfáltica');
+INSERT INTO materiales (cantidad, coste, nombre) VALUES (200, 80.00, 'Láminas de fibra de vidrio');
+INSERT INTO materiales (cantidad, coste, nombre) VALUES (150, 10.00, 'Lámparas');
+INSERT INTO materiales (cantidad, coste, nombre) VALUES (3000, 0.25, 'Ladrillos');
+INSERT INTO materiales (cantidad, coste, nombre) VALUES (500, 60.00, 'Cemento');
+INSERT INTO materiales (cantidad, coste, nombre) VALUES (2000, 85.00, 'Madera');
+INSERT INTO materiales (cantidad, coste, nombre) VALUES (1000, 60.00, 'Cables eléctricos');
+INSERT INTO materiales (cantidad, coste, nombre) VALUES (800, 50.00, 'Azulejos');
 
 
 INSERT INTO apikeys (activada, fecha_creada, api_key,usados, usos_disponibles) VALUES ( true,  '2024-02-03', '0tEOWr39mZd4Bqsm55f5', 0, 50);
