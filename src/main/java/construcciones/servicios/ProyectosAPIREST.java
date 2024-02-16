@@ -3,10 +3,12 @@ package construcciones.servicios;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import construcciones.dao.APIKeyDAOInterface;
+import construcciones.dao.AvanceDAOInterface;
 import construcciones.dao.ClienteDAOInterface;
 import construcciones.dao.ProyectoDAOInterface;
 import construcciones.dto.ProyectoDTO;
 import construcciones.entidades.APIKey;
+import construcciones.entidades.Avance;
 import construcciones.entidades.Cliente;
 import construcciones.entidades.Proyecto;
 import spark.Spark;
@@ -22,17 +24,21 @@ public class ProyectosAPIREST {
     private APIKeyDAOInterface daoKey;
 
     private ClienteDAOInterface daoCliente;
+
+    private AvanceDAOInterface daoAvance;
     private Gson gson = new GsonBuilder()
             .excludeFieldsWithoutExposeAnnotation()
             .create();
 
     public ProyectosAPIREST(ProyectoDAOInterface implementacion,
                             APIKeyDAOInterface implementacionKey,
-                            ClienteDAOInterface implementacionCliente) {
+                            ClienteDAOInterface implementacionCliente,
+                            AvanceDAOInterface implementacionAvance) {
         Spark.port(8080);
         daoProyecto = implementacion;
         daoKey = implementacionKey;
         daoCliente = implementacionCliente;
+        daoAvance = implementacionAvance;
 
         Spark.before((request, response) -> {
             response.type("application/json");
@@ -352,6 +358,12 @@ public class ProyectosAPIREST {
             return gson.toJson(proyectos);
         });
 
+//        ===================================================================================================
+
+        Spark.get("/avances", (request, response) -> {
+            List<Avance> todos = daoAvance.devolverTodos();
+            return gson.toJson(todos);
+        });
 
 //        ===================================================================================================
         //En caso de intentar un endpoint incorrecto

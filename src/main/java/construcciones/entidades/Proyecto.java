@@ -6,6 +6,8 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Date;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name="Proyectos")
@@ -42,6 +44,19 @@ public class Proyecto implements Serializable {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_cliente", foreignKey = @ForeignKey(name = "fk_proyecto_cliente"))
     private Cliente cliente;
+
+    @OneToMany(mappedBy = "proyecto", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<Avance> avances = new ArrayList<>();
+
+    public void agregarAvance(Avance avance){
+        avances.add(avance);
+        avance.setProyecto(this);
+    }
+
+    public void borrarAvance(Avance avance){
+        avances.remove(avance);
+        avance.setProyecto(null);
+    }
 
     public Proyecto() {
     }
@@ -110,6 +125,14 @@ public class Proyecto implements Serializable {
 
     public void setCliente(Cliente cliente) {
         this.cliente = cliente;
+    }
+
+    public List<Avance> getAvances() {
+        return avances;
+    }
+
+    public void setAvances(List<Avance> avances) {
+        this.avances = avances;
     }
 
     @Override

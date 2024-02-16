@@ -1,10 +1,10 @@
 package construcciones.entidades;
 
+import com.google.gson.annotations.Expose;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Date;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Table(name = "Avances")
@@ -14,26 +14,30 @@ public class Avance implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Expose
     private Long id;
 
     @Column(name = "fecha", nullable = false)
+    @Expose
     private Date fecha;
 
     @Column(name = "descripcion", length = 255,nullable = false)
+    @Expose
     private String descripcion;
 
     @Column(name = "porcentaje_completado", nullable = false)
+    @Expose
     private int porcentajeCompletado;
 
-    @ManyToOne
-    @JoinColumn(name = "id_proyecto")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_proyecto",foreignKey = @ForeignKey(name = "fk_avance_proyecto"))
     private Proyecto proyecto;
 
-    @ManyToMany
-    @JoinTable(name = "avance_material",
-            joinColumns = @JoinColumn(name="id_avance"),
-            inverseJoinColumns = @JoinColumn(name = "id_material"))
-    private List<Material> materiales;
+//    @ManyToMany
+//    @JoinTable(name = "avance_material",
+//            joinColumns = @JoinColumn(name="id_avance"),
+//            inverseJoinColumns = @JoinColumn(name = "id_material"))
+//    private List<Material> materiales;
 
     public Avance(Long id, Date fecha, String descripcion, int porcentajeCompletado, Proyecto proyecto) {
         this.id = id;
@@ -41,7 +45,7 @@ public class Avance implements Serializable {
         this.descripcion = descripcion;
         this.porcentajeCompletado = porcentajeCompletado;
         this.proyecto = proyecto;
-        this.materiales = new ArrayList<>();
+//        this.materiales = new ArrayList<>();
     }
 
     public Avance() {

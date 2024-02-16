@@ -22,8 +22,8 @@ public class Material implements Serializable {
     @Column(name = "coste", nullable = false, precision = 10, scale = 2)
     private BigDecimal coste;
 
-    @ManyToMany(mappedBy = "materiales")
-    private List<Avance> avances;
+//    @ManyToMany(mappedBy = "materiales")
+//    private List<Avance> avances;
 
     public Material(Long id, String nombre, int cantidad, BigDecimal coste) {
         this.id = id;
