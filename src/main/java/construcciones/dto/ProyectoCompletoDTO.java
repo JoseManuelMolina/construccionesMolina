@@ -1,52 +1,20 @@
-package construcciones.entidades;
+package construcciones.dto;
 
-import com.google.gson.annotations.Expose;
+import construcciones.entidades.Cliente;
 
-import javax.persistence.*;
-import java.io.Serializable;
 import java.sql.Date;
-import java.time.LocalDate;
 
-@Entity
-@Table(name="Proyectos")
-public class Proyecto implements Serializable {
+public class ProyectoCompletoDTO {
 
-//    Atributos
-
-    @Expose
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @Expose
-    @Column(name = "nombre", length = 100 ,unique = true)
     private String nombre;
-
-    @Expose
-    @Column(name = "presupuesto", nullable = false)
     private Double presupuesto;
-
-    @Expose
-    @Column(name = "fecha_inicio", nullable = false)
     private Date fechaInicio;
-
-    @Expose
-    @Column(name = "plano", nullable = true)
     private String plano;
-
-    @Expose
-    @Column(name = "categoria", length = 100, nullable = true)
     private String categoria;
-
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_cliente", foreignKey = @ForeignKey(name = "fk_proyecto_cliente"))
     private Cliente cliente;
 
-    public Proyecto() {
-    }
-
-    public Proyecto(Long id, String nombre, Double presupuesto, Date fechaInicio, String plano, String categoria, Cliente cliente) {
+    public ProyectoCompletoDTO(Long id, String nombre, Double presupuesto, Date fechaInicio, String plano, String categoria, Cliente cliente) {
         this.id = id;
         this.nombre = nombre;
         this.presupuesto = presupuesto;
@@ -54,6 +22,9 @@ public class Proyecto implements Serializable {
         this.plano = plano;
         this.categoria = categoria;
         this.cliente = cliente;
+    }
+
+    public ProyectoCompletoDTO() {
     }
 
     public Long getId() {
@@ -114,16 +85,14 @@ public class Proyecto implements Serializable {
 
     @Override
     public String toString() {
-        return "Proyecto{" +
+        return "ProyectoCompletoDTO{" +
                 "id=" + id +
-                ", nombre=" + nombre + "\n" +
-                ", presupuesto=" + presupuesto + "\n"+
-                ", fechaInicio=" + fechaInicio + "\n"+
-                ", plano=" + plano + "\n"+
-                ", categoria=" + categoria + "\n"+
-                ", cliente=" + cliente + "\n"+
-                "}\n";
+                ", nombre='" + nombre + '\'' +
+                ", presupuesto=" + presupuesto +
+                ", fechaInicio=" + fechaInicio +
+                ", plano='" + plano + '\'' +
+                ", categoria='" + categoria + '\'' +
+                ", cliente=" + cliente +
+                '}';
     }
 }
-
-

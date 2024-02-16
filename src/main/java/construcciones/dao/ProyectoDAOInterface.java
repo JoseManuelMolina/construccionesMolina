@@ -1,5 +1,6 @@
 package construcciones.dao;
 
+import construcciones.dto.ProyectoCompletoDTO;
 import construcciones.dto.ProyectoDTO;
 import construcciones.entidades.Proyecto;
 
@@ -33,4 +34,6 @@ public interface ProyectoDAOInterface {
     boolean deleteAll();
 
     List<ProyectoDTO> listarProyectosConCondicion(String condicion);
+
+    List<ProyectoCompletoDTO> devolverTodosCompletos();
 }

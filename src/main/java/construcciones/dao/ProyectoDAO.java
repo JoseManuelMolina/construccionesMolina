@@ -1,5 +1,6 @@
 package construcciones.dao;
 
+import construcciones.dto.ProyectoCompletoDTO;
 import construcciones.dto.ProyectoDTO;
 import construcciones.entidades.Proyecto;
 
@@ -24,6 +25,8 @@ public class ProyectoDAO implements ProyectoDAOInterface{
 
         return todos;
     }
+
+
 
     @Override
     public List<Proyecto> devolverTodos(int pagina, int objetos_por_pagina) {
@@ -280,6 +283,18 @@ public class ProyectoDAO implements ProyectoDAOInterface{
                     condicion;
             Query<ProyectoDTO> query = session.createQuery(hql, ProyectoDTO.class);
 
+            return query.list();
+        }catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public List<ProyectoCompletoDTO> devolverTodosCompletos(){
+        try(Session session = HibernateUtil.getSessionFactory().openSession()){
+            String hql = "SELECT new construcciones.dto.ProyectoCompletoDTO(p.id, p.nombre, p.presupuesto," +
+                    " p.fechaInicio, p.plano, p.categoria, p.cliente) FROM Proyecto p";
+            Query<ProyectoCompletoDTO> query = session.createQuery(hql, ProyectoCompletoDTO.class);
             return query.list();
         }catch (Exception e){
             e.printStackTrace();

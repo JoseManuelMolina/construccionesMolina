@@ -1,9 +1,8 @@
 package construcciones;
 
 import construcciones.dao.APIKeyDAO;
+import construcciones.dao.ClienteDAO;
 import construcciones.dao.ProyectoDAO;
-import construcciones.entidades.Proyecto;
-import construcciones.servicios.APIKeyAPIREST;
 import construcciones.servicios.ProyectosAPIREST;
 
 
@@ -13,7 +12,7 @@ public class Servidor {
 
         ProyectosAPIREST api = new ProyectosAPIREST(
                 new ProyectoDAO(),
-                new APIKeyDAO()
-                );
+                new APIKeyDAO(),
+                new ClienteDAO());
     }
 }

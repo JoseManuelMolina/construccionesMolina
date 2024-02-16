@@ -1,6 +1,7 @@
 package construcciones.dto;
 
 public class ProyectoDTO {
+
     private String nombre;
     private Double presupuesto;
 
