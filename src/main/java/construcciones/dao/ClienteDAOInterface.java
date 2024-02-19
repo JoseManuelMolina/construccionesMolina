@@ -17,7 +17,7 @@ public interface ClienteDAOInterface {
     Long numeroClientes();
     Cliente buscarPorId(Long id);
     List <Cliente> buscarPorRazon(String razon);
-    Cliente buscarPorCIF(String cif);
+    List<Cliente> buscarPorCIF(String cif);
 
     Cliente create(Cliente cliente);
     Cliente update(Cliente cliente);

@@ -352,10 +352,93 @@ public class ProyectosAPIREST {
             return gson.toJson(todos);
         });
 
+        Spark.get("/clientes/paginados/:pag/:tam", (request, response) -> {
+            Integer pag = Integer.parseInt(request.params(":pag"));
+            Integer tam = Integer.parseInt(request.params(":tam"));
+
+            List<Cliente> clientes = daoCliente.devolverTodos(pag,tam);
+            Long totalElementos = daoCliente.numeroClientes();
+            RespuestaPaginacion<Cliente> paginaResultado = new RespuestaPaginacion<>(clientes,totalElementos,pag,tam);
+
+            return gson.toJson(paginaResultado);
+        });
+
+        Spark.get("/clientes/num",(request, response) -> {
+            Long num = daoCliente.numeroClientes();
+            return gson.toJson(num);
+        });
+
         Spark.get("/cliente/proyectos/:id", (request, response) -> {
             Long id = Long.parseLong(request.params(":id"));
             List<Proyecto> proyectos = daoCliente.devolverProyectos(id);
             return gson.toJson(proyectos);
+        });
+
+        Spark.get("/cliente/buscar/id/:id", (request, response) -> {
+            Long id = Long.parseLong(request.params(":id"));
+            Cliente cliente = daoCliente.buscarPorId(id);
+            return gson.toJson(cliente);
+        });
+
+        Spark.get("/cliente/buscar/razon/:razon", (request, response) -> {
+            String razon = request.params(":razon");
+            List<Cliente> clientes = daoCliente.buscarPorRazon(razon);
+            return gson.toJson(clientes);
+        });
+
+        Spark.get("/cliente/buscar/cif/:cif", (request, response) -> {
+            List<Cliente> cliente = daoCliente.buscarPorCIF(request.params(":cif"));
+            return gson.toJson(cliente);
+        });
+
+        Spark.get("/cliente/masproyectos", (request, response) -> {
+            Cliente cliente = daoCliente.devolverMasProyectos();
+            return gson.toJson(cliente);
+        });
+
+        Spark.get("/cliente/menosproyectos", (request, response) -> {
+            Cliente cliente = daoCliente.devolverMenosProyectos();
+            return gson.toJson(cliente);
+        });
+
+
+        //        Endpoint para crear un nuevo proyecto
+        Spark.post("/clientes",(request, response) -> {
+            String body = request.body();
+            Cliente nuevoCliente = gson.fromJson(body, Cliente.class);
+
+            Cliente creado = daoCliente.create(nuevoCliente);
+
+            return gson.toJson(creado);
+        });
+
+//        Endpoint para editar un proyecto por su ID
+        Spark.put("/clientes/editar/:id", (request, response) -> {
+            Long id = Long.parseLong(request.params(":id"));
+            String body = request.body();
+            Cliente clienteActualizado = gson.fromJson(body, Cliente.class);
+            clienteActualizado.setId(id);
+            Cliente actualizado = daoCliente.update(clienteActualizado);
+
+            if (actualizado != null){
+                return gson.toJson(actualizado);
+            } else{
+                response.status(404);
+                return "Cliente no encontrado";
+            }
+        });
+
+//        Endpoint para eliminar un proyecto por su Id
+        Spark.delete("/clientes/borrar/:id",(request, response) -> {
+            Long id = Long.parseLong(request.params(":id"));
+            boolean eliminado = daoCliente.deleteById(id);
+
+            if(eliminado){
+                return "Cliente eliminado correctamente";
+            }else{
+                response.status(404);
+                return "Cliente no encontrado";
+            }
         });
 
 //        ===================================================================================================

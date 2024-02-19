@@ -41,9 +41,11 @@ public class Proyecto implements Serializable {
     private String categoria;
 
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_cliente", foreignKey = @ForeignKey(name = "fk_proyecto_cliente"))
+    @Expose
     private Cliente cliente;
+
 
     @OneToMany(mappedBy = "proyecto", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<Avance> avances = new ArrayList<>();
@@ -144,7 +146,7 @@ public class Proyecto implements Serializable {
                 ", fechaInicio=" + fechaInicio + "\n"+
                 ", plano=" + plano + "\n"+
                 ", categoria=" + categoria + "\n"+
-                ", cliente=" + cliente + "\n"+
+                ", cliente=" + cliente.getId() + "\n"+
                 "}\n";
     }
 }
