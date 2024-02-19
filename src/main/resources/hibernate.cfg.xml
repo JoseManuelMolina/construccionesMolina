@@ -26,6 +26,7 @@
         <mapping class="construcciones.entidades.Avance"/>
         <mapping class="construcciones.entidades.Material"/>
         <mapping class="construcciones.entidades.AvanceMaterial"/>
+        <mapping class="construcciones.entidades.Proveedor"/>
         <mapping class="construcciones.entidades.APIKey"/>
 
 

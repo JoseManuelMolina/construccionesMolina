@@ -32,6 +32,9 @@ public class Material implements Serializable {
     @OneToMany(mappedBy = "material", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<AvanceMaterial> avanceMateriales = new ArrayList<>();
 
+    @ManyToMany(mappedBy = "materiales")
+    private List<Proveedor> proveedores = new ArrayList<>();
+
     public Material(Long id, String nombre, int cantidad, BigDecimal coste) {
         this.id = id;
         this.nombre = nombre;
@@ -80,6 +83,14 @@ public class Material implements Serializable {
 
     public void setAvanceMateriales(List<AvanceMaterial> avanceMateriales) {
         this.avanceMateriales = avanceMateriales;
+    }
+
+    public List<Proveedor> getProveedores() {
+        return proveedores;
+    }
+
+    public void setProveedores(List<Proveedor> proveedores) {
+        this.proveedores = proveedores;
     }
 
     @Override

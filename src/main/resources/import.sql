@@ -61,6 +61,25 @@ INSERT INTO avance_material (cantidad, id_avance, id_material) VALUES (20, 2, 10
 INSERT INTO avance_material (cantidad, id_avance, id_material) VALUES (100, 1, 13);
 INSERT INTO avance_material (cantidad, id_avance, id_material) VALUES (50, 8, 12);
 
+INSERT INTO proveedores (direccion, nombre, telefono) VALUES ('Calle Principal 123, Ciudad A', 'Proveedor A', '123-456-7890');
+INSERT INTO proveedores (direccion, nombre, telefono) VALUES ('Avenida Central 456, Ciudad B', 'Proveedor B', '987-654-3210');
+INSERT INTO proveedores (direccion, nombre, telefono) VALUES ('Calle Secundaria 789, Ciudad C', 'Proveedor C', '555-555-5555');
+INSERT INTO proveedores (direccion, nombre, telefono) VALUES ('Avenida Norte 321, Ciudad D', 'Proveedor D', '111-222-3333');
+INSERT INTO proveedores (direccion, nombre, telefono) VALUES ('Calle Sur 654, Ciudad E', 'Proveedor E', '444-555-6666');
+
+INSERT INTO proveedor_material (id_proveedor, id_material) VALUES (1, 1);
+INSERT INTO proveedor_material (id_proveedor, id_material) VALUES (1, 2);
+INSERT INTO proveedor_material (id_proveedor, id_material) VALUES (2, 2);
+INSERT INTO proveedor_material (id_proveedor, id_material) VALUES (2, 3);
+INSERT INTO proveedor_material (id_proveedor, id_material) VALUES (3, 3);
+INSERT INTO proveedor_material (id_proveedor, id_material) VALUES (3, 4);
+INSERT INTO proveedor_material (id_proveedor, id_material) VALUES (4, 4);
+INSERT INTO proveedor_material (id_proveedor, id_material) VALUES (4, 5);
+INSERT INTO proveedor_material (id_proveedor, id_material) VALUES (5, 5);
+INSERT INTO proveedor_material (id_proveedor, id_material) VALUES (5, 1);
+INSERT INTO proveedor_material (id_proveedor, id_material) VALUES (1, 3);
+INSERT INTO proveedor_material (id_proveedor, id_material) VALUES (2, 4);
+
 
 INSERT INTO apikeys (activada, fecha_creada, api_key,usados, usos_disponibles) VALUES ( true,  '2024-02-03', '0tEOWr39mZd4Bqsm55f5', 0, 50);
 INSERT INTO apikeys (activada, fecha_creada, api_key,usados, usos_disponibles) VALUES ( true,  '2024-02-03', 'K17gKqlzm0xkclRVPgyk', 0, 50);
