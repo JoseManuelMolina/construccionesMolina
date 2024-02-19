@@ -1,8 +1,11 @@
 package construcciones.entidades;
 
+import com.google.gson.annotations.Expose;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -11,19 +14,23 @@ public class Material implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Expose
     private Long id;
 
     @Column(name = "nombre", length = 200,nullable = false)
+    @Expose
     private String nombre;
 
     @Column(name = "cantidad", nullable = false)
+    @Expose
     private int cantidad;
 
     @Column(name = "coste", nullable = false, precision = 10, scale = 2)
+    @Expose
     private BigDecimal coste;
 
-//    @ManyToMany(mappedBy = "materiales")
-//    private List<Avance> avances;
+    @OneToMany(mappedBy = "material", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<AvanceMaterial> avanceMateriales = new ArrayList<>();
 
     public Material(Long id, String nombre, int cantidad, BigDecimal coste) {
         this.id = id;
@@ -65,6 +72,14 @@ public class Material implements Serializable {
 
     public void setCoste(BigDecimal coste) {
         this.coste = coste;
+    }
+
+    public List<AvanceMaterial> getAvanceMateriales() {
+        return avanceMateriales;
+    }
+
+    public void setAvanceMateriales(List<AvanceMaterial> avanceMateriales) {
+        this.avanceMateriales = avanceMateriales;
     }
 
     @Override

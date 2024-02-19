@@ -5,6 +5,8 @@ import com.google.gson.annotations.Expose;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "Avances")
@@ -33,11 +35,9 @@ public class Avance implements Serializable {
     @JoinColumn(name = "id_proyecto",foreignKey = @ForeignKey(name = "fk_avance_proyecto"))
     private Proyecto proyecto;
 
-//    @ManyToMany
-//    @JoinTable(name = "avance_material",
-//            joinColumns = @JoinColumn(name="id_avance"),
-//            inverseJoinColumns = @JoinColumn(name = "id_material"))
-//    private List<Material> materiales;
+    @OneToMany(mappedBy = "avance", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<AvanceMaterial> avanceMateriales = new ArrayList<>();
+
 
     public Avance(Long id, Date fecha, String descripcion, int porcentajeCompletado, Proyecto proyecto) {
         this.id = id;
@@ -45,7 +45,6 @@ public class Avance implements Serializable {
         this.descripcion = descripcion;
         this.porcentajeCompletado = porcentajeCompletado;
         this.proyecto = proyecto;
-//        this.materiales = new ArrayList<>();
     }
 
     public Avance() {
@@ -89,6 +88,14 @@ public class Avance implements Serializable {
 
     public void setProyecto(Proyecto proyecto) {
         this.proyecto = proyecto;
+    }
+
+    public List<AvanceMaterial> getAvanceMateriales() {
+        return avanceMateriales;
+    }
+
+    public void setAvanceMateriales(List<AvanceMaterial> avanceMateriales) {
+        this.avanceMateriales = avanceMateriales;
     }
 
     @Override

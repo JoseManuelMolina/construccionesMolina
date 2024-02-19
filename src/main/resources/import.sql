@@ -52,11 +52,14 @@ INSERT INTO materiales (cantidad, coste, nombre) VALUES (900, 25.00, 'Piedra tri
 INSERT INTO materiales (cantidad, coste, nombre) VALUES (350, 40.00, 'Tela asfáltica');
 INSERT INTO materiales (cantidad, coste, nombre) VALUES (200, 80.00, 'Láminas de fibra de vidrio');
 INSERT INTO materiales (cantidad, coste, nombre) VALUES (150, 10.00, 'Lámparas');
-INSERT INTO materiales (cantidad, coste, nombre) VALUES (3000, 0.25, 'Ladrillos');
-INSERT INTO materiales (cantidad, coste, nombre) VALUES (500, 60.00, 'Cemento');
-INSERT INTO materiales (cantidad, coste, nombre) VALUES (2000, 85.00, 'Madera');
 INSERT INTO materiales (cantidad, coste, nombre) VALUES (1000, 60.00, 'Cables eléctricos');
-INSERT INTO materiales (cantidad, coste, nombre) VALUES (800, 50.00, 'Azulejos');
+
+INSERT INTO avance_material (cantidad, id_avance, id_material) VALUES (1500, 3, 2);
+INSERT INTO avance_material (cantidad, id_avance, id_material) VALUES (60, 3, 1);
+INSERT INTO avance_material (cantidad, id_avance, id_material) VALUES (600, 5, 3);
+INSERT INTO avance_material (cantidad, id_avance, id_material) VALUES (20, 2, 10);
+INSERT INTO avance_material (cantidad, id_avance, id_material) VALUES (100, 1, 13);
+INSERT INTO avance_material (cantidad, id_avance, id_material) VALUES (50, 8, 12);
 
 
 INSERT INTO apikeys (activada, fecha_creada, api_key,usados, usos_disponibles) VALUES ( true,  '2024-02-03', '0tEOWr39mZd4Bqsm55f5', 0, 50);
