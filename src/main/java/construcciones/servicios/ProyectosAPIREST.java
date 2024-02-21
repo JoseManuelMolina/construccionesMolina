@@ -402,7 +402,6 @@ public class ProyectosAPIREST {
         });
 
 
-        //        Endpoint para crear un nuevo proyecto
         Spark.post("/clientes",(request, response) -> {
             String body = request.body();
             Cliente nuevoCliente = gson.fromJson(body, Cliente.class);
@@ -412,7 +411,6 @@ public class ProyectosAPIREST {
             return gson.toJson(creado);
         });
 
-//        Endpoint para editar un proyecto por su ID
         Spark.put("/clientes/editar/:id", (request, response) -> {
             Long id = Long.parseLong(request.params(":id"));
             String body = request.body();
@@ -428,7 +426,6 @@ public class ProyectosAPIREST {
             }
         });
 
-//        Endpoint para eliminar un proyecto por su Id
         Spark.delete("/clientes/borrar/:id",(request, response) -> {
             Long id = Long.parseLong(request.params(":id"));
             boolean eliminado = daoCliente.deleteById(id);
@@ -447,6 +444,72 @@ public class ProyectosAPIREST {
             List<Avance> todos = daoAvance.devolverTodos();
             return gson.toJson(todos);
         });
+
+        Spark.get("/avances/buscar/id/:id", (request, response) -> {
+            Long id = Long.parseLong(request.params(":id"));
+            Avance avance = daoAvance.buscarPorId(id);
+            return gson.toJson(avance);
+        });
+
+        Spark.get("/avances/buscar/desc/:desc", (request, response) -> {
+           List<Avance> avances = daoAvance.buscarPorDesc(request.params(":desc"));
+           return gson.toJson(avances);
+        });
+
+        Spark.get("/avances/buscar/fecha/:fec", (request, response) -> {
+            try{
+                String fechaStr = request.params(":fec");
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                Date fecha = dateFormat.parse(fechaStr);
+
+                List<Avance> avances = daoAvance.buscarPorFechaPosterior(fecha);
+                return gson.toJson(avances);
+            }catch (Exception e){
+                e.printStackTrace();
+                return "Error interno...";
+            }
+        });
+
+        Spark.get("/avances/buscar/porcentaje/:porc", (request, response) -> {
+            int porcentaje = Integer.parseInt(request.params(":porc"));
+            List<Avance> avances = daoAvance.buscarPorPorcentaje(porcentaje);
+            return gson.toJson(avances);
+        });
+
+        Spark.post("/avances",(request, response) -> {
+            String body = request.body();
+            Avance nuevoAvance = gson.fromJson(body, Avance.class);
+            Avance creado = daoAvance.create(nuevoAvance);
+            return gson.toJson(creado);
+        });
+
+        Spark.put("/avances/editar/:id", (request, response) -> {
+            Long id = Long.parseLong(request.params(":id"));
+            String body = request.body();
+            Avance avanceActualizado = gson.fromJson(body, Avance.class);
+            avanceActualizado.setId(id);
+            Avance actualizado = daoAvance.update(avanceActualizado);
+
+            if(actualizado != null){
+                return gson.toJson(actualizado);
+            }else{
+                response.status(404);
+                return "Avance no encontrado";
+            }
+        });
+
+        Spark.delete("/avances/borrar/:id", (request, response) -> {
+            Long id = Long.parseLong(request.params(":id"));
+            boolean eliminado = daoAvance.delete(id);
+
+            if(eliminado){
+                return "Avance eliminado correctamente";
+            }else{
+                response.status(404);
+                return "Avance no encontrado";
+            }
+        });
+
 
 //        ===================================================================================================
         //En caso de intentar un endpoint incorrecto

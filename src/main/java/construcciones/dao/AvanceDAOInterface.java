@@ -2,7 +2,7 @@ package construcciones.dao;
 
 import construcciones.entidades.Avance;
 
-import java.sql.Date;
+import java.util.Date;
 import java.util.List;
 
 public interface AvanceDAOInterface {
@@ -18,6 +18,6 @@ public interface AvanceDAOInterface {
     Avance create(Avance avance);
     Avance update(Avance avance);
 
-    boolean delete(Avance avance);
+    boolean delete(Long id);
 
 }
