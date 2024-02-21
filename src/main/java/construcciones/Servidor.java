@@ -13,6 +13,7 @@ public class Servidor {
                 new APIKeyDAO(),
                 new ClienteDAO(),
                 new AvanceDAO(),
-                new MaterialDAO());
+                new MaterialDAO(),
+                new AvanceMaterialDAO());
     }
 }

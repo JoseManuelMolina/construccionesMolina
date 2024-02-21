@@ -17,12 +17,10 @@ public class ProyectosAPIREST {
 
     private ProyectoDAOInterface daoProyecto;
     private APIKeyDAOInterface daoKey;
-
     private ClienteDAOInterface daoCliente;
-
     private AvanceDAOInterface daoAvance;
-
     private MaterialDAOInterface daoMaterial;
+    private AvanceMaterialDAOInterface daoAvanceMaterial;
     private Gson gson = new GsonBuilder()
             .excludeFieldsWithoutExposeAnnotation()
             .create();
@@ -31,13 +29,15 @@ public class ProyectosAPIREST {
                             APIKeyDAOInterface implementacionKey,
                             ClienteDAOInterface implementacionCliente,
                             AvanceDAOInterface implementacionAvance,
-                            MaterialDAOInterface implementacionMaterial) {
+                            MaterialDAOInterface implementacionMaterial,
+                            AvanceMaterialDAOInterface implmentacionAvanceMaterial) {
         Spark.port(8080);
         daoProyecto = implementacion;
         daoKey = implementacionKey;
         daoCliente = implementacionCliente;
         daoAvance = implementacionAvance;
         daoMaterial = implementacionMaterial;
+        daoAvanceMaterial = implmentacionAvanceMaterial;
 
         Spark.before((request, response) -> {
             response.type("application/json");
@@ -593,6 +593,14 @@ public class ProyectosAPIREST {
                 response.status(404);
                 return "Material no encontrado o usado en otra tabla";
             }
+        });
+
+//        ===================================================================================================
+//        ======================================AVANCE MATERIALES============================================
+//        ===================================================================================================
+        Spark.get("/avancesmateriales", (request, response) -> {
+            List<AvanceMaterial> avanceMateriales = daoAvanceMaterial.obtenerTodos();
+            return gson.toJson(avanceMateriales);
         });
 
 //        ===================================================================================================

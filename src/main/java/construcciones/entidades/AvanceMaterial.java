@@ -1,5 +1,7 @@
 package construcciones.entidades;
 
+import com.google.gson.annotations.Expose;
+
 import javax.persistence.*;
 
 @Entity
@@ -8,17 +10,21 @@ public class AvanceMaterial {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Expose
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "id_avance", foreignKey = @ForeignKey(name = "fk_avance_avancematerial"))
+    @Expose
     private Avance avance;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "id_material", foreignKey = @ForeignKey(name = "fk_material_avancematerial"))
+    @Expose
     private Material material;
 
     @Column(name = "cantidad", nullable = false)
+    @Expose
     private Long cantidad;
 
     public AvanceMaterial(Long id, Avance avance, Material material, Long cantidad) {
