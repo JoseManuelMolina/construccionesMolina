@@ -2,17 +2,12 @@ package construcciones.servicios;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import construcciones.dao.APIKeyDAOInterface;
-import construcciones.dao.AvanceDAOInterface;
-import construcciones.dao.ClienteDAOInterface;
-import construcciones.dao.ProyectoDAOInterface;
+import construcciones.dao.*;
 import construcciones.dto.ProyectoDTO;
-import construcciones.entidades.APIKey;
-import construcciones.entidades.Avance;
-import construcciones.entidades.Cliente;
-import construcciones.entidades.Proyecto;
+import construcciones.entidades.*;
 import spark.Spark;
 
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
@@ -26,6 +21,8 @@ public class ProyectosAPIREST {
     private ClienteDAOInterface daoCliente;
 
     private AvanceDAOInterface daoAvance;
+
+    private MaterialDAOInterface daoMaterial;
     private Gson gson = new GsonBuilder()
             .excludeFieldsWithoutExposeAnnotation()
             .create();
@@ -33,22 +30,33 @@ public class ProyectosAPIREST {
     public ProyectosAPIREST(ProyectoDAOInterface implementacion,
                             APIKeyDAOInterface implementacionKey,
                             ClienteDAOInterface implementacionCliente,
-                            AvanceDAOInterface implementacionAvance) {
+                            AvanceDAOInterface implementacionAvance,
+                            MaterialDAOInterface implementacionMaterial) {
         Spark.port(8080);
         daoProyecto = implementacion;
         daoKey = implementacionKey;
         daoCliente = implementacionCliente;
         daoAvance = implementacionAvance;
+        daoMaterial = implementacionMaterial;
 
         Spark.before((request, response) -> {
             response.type("application/json");
         });
+
+//        ===================================================================================================
+//        ============================================EXCEPTION==============================================
+//        ===================================================================================================
 
         Spark.exception(Exception.class, (e, req, res) -> {
             e.printStackTrace(); // Imprime la excepción en la consola
             res.status(500); // Establece el código de estado HTTP 500
             res.body("Ha ocurrido un error, vuelve a intentarlo"); // Mensaje de error para el cliente
         });
+
+
+//        ===================================================================================================
+//        ============================================PROYECTOS==============================================
+//        ===================================================================================================
 
 //        Endpoint para obtener todos los proyectos
         Spark.get("/proyectos", (request, response) -> {
@@ -272,6 +280,8 @@ public class ProyectosAPIREST {
 
 
 //        ===================================================================================================
+//        ==============================================APIKEY===============================================
+//        ===================================================================================================
 
         Spark.get("/keys", (request, response) -> {
             List<APIKey> keys = daoKey.devolverTodas();
@@ -346,6 +356,9 @@ public class ProyectosAPIREST {
             }
         });
 //        ===================================================================================================
+//        =============================================CLIENTES==============================================
+//        ===================================================================================================
+
         Spark.get("/clientes", (request, response) -> {
             List<Cliente> todos = daoCliente.devolverTodos();
 
@@ -439,6 +452,8 @@ public class ProyectosAPIREST {
         });
 
 //        ===================================================================================================
+//        ==============================================AVANCES==============================================
+//        ===================================================================================================
 
         Spark.get("/avances", (request, response) -> {
             List<Avance> todos = daoAvance.devolverTodos();
@@ -510,6 +525,75 @@ public class ProyectosAPIREST {
             }
         });
 
+//        ===================================================================================================
+//        ===========================================MATERIALES==============================================
+//        ===================================================================================================
+
+        Spark.get("/materiales", (request, response) -> {
+            List<Material> materiales = daoMaterial.devolverTodos();
+            return gson.toJson(materiales);
+        });
+
+        Spark.get("/materiales/buscar/id/:id", (request, response) -> {
+           Long id = Long.parseLong(request.params(":id"));
+           Material material = daoMaterial.buscarPorId(id);
+           return gson.toJson(material);
+        });
+
+        Spark.get("/materiales/cantidad/:id", (request, response) -> {
+            Long id = Long.parseLong(request.params(":id"));
+            int cantidad = daoMaterial.cantidadDeID(id);
+            return gson.toJson(cantidad);
+        });
+
+        Spark.get("/materiales/buscar/nombre/:nom", (request, response) -> {
+            List<Material> materiales = daoMaterial.buscarPorNombre(request.params(":nom"));
+            return gson.toJson(materiales);
+        });
+
+        Spark.get("/materiales/buscar/coste/:cos", (request, response) -> {
+            BigDecimal coste = BigDecimal.valueOf(Long.parseLong(request.params(":cos")));
+            List<Material> materiales = daoMaterial.buscarPorCosteSuperior(coste);
+            return gson.toJson(materiales);
+        });
+
+        Spark.get("/materiales/buscar/cantidad/:can", (request, response) -> {
+            int cantidad = Integer.parseInt(request.params(":can"));
+            List<Material> materiales = daoMaterial.buscarPorCantidadSuperior(cantidad);
+            return gson.toJson(materiales);
+        });
+
+        Spark.post("/materiales", (request, response) -> {
+            String body = request.body();
+            Material nuevoMaterial = gson.fromJson(body, Material.class);
+            Material creado = daoMaterial.create(nuevoMaterial);
+            return gson.toJson(creado);
+        });
+
+        Spark.put("/materiales/editar/:id", (request, response) -> {
+            Long id = Long.parseLong(request.params(":id"));
+            String body = request.body();
+            Material materialActualizado = gson.fromJson(body, Material.class);
+            materialActualizado.setId(id);
+            Material actualizado = daoMaterial.update(materialActualizado);
+            if(actualizado != null){
+                return gson.toJson(actualizado);
+            }else{
+                response.status(404);
+                return "Material no encontrado";
+            }
+        });
+
+        Spark.delete("/materiales/borrar/:id", (request, response) -> {
+            Long id = Long.parseLong(request.params(":id"));
+            boolean eliminado = daoMaterial.delete(id);
+            if(eliminado){
+                return "Material eliminado correctamente";
+            }else{
+                response.status(404);
+                return "Material no encontrado o usado en otra tabla";
+            }
+        });
 
 //        ===================================================================================================
         //En caso de intentar un endpoint incorrecto

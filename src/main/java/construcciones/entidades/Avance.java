@@ -31,11 +31,12 @@ public class Avance implements Serializable {
     @Expose
     private int porcentajeCompletado;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_proyecto",foreignKey = @ForeignKey(name = "fk_avance_proyecto"))
+    @Expose
     private Proyecto proyecto;
 
-    @OneToMany(mappedBy = "avance", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "avance", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<AvanceMaterial> avanceMateriales = new ArrayList<>();
 
 

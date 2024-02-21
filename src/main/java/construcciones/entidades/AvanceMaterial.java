@@ -10,11 +10,11 @@ public class AvanceMaterial {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "id_avance", foreignKey = @ForeignKey(name = "fk_avance_avancematerial"))
     private Avance avance;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "id_material", foreignKey = @ForeignKey(name = "fk_material_avancematerial"))
     private Material material;
 
