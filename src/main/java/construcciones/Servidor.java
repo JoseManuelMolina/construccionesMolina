@@ -14,6 +14,7 @@ public class Servidor {
                 new ClienteDAO(),
                 new AvanceDAO(),
                 new MaterialDAO(),
-                new AvanceMaterialDAO());
+                new AvanceMaterialDAO(),
+                new ProveedorDAO());
     }
 }

@@ -21,6 +21,7 @@ public class ProyectosAPIREST {
     private AvanceDAOInterface daoAvance;
     private MaterialDAOInterface daoMaterial;
     private AvanceMaterialDAOInterface daoAvanceMaterial;
+    private ProveedorDAOInterface daoProveedor;
     private Gson gson = new GsonBuilder()
             .excludeFieldsWithoutExposeAnnotation()
             .create();
@@ -30,14 +31,16 @@ public class ProyectosAPIREST {
                             ClienteDAOInterface implementacionCliente,
                             AvanceDAOInterface implementacionAvance,
                             MaterialDAOInterface implementacionMaterial,
-                            AvanceMaterialDAOInterface implmentacionAvanceMaterial) {
+                            AvanceMaterialDAOInterface implementacionAvanceMaterial,
+                            ProveedorDAOInterface implementacionProveedor) {
         Spark.port(8080);
         daoProyecto = implementacion;
         daoKey = implementacionKey;
         daoCliente = implementacionCliente;
         daoAvance = implementacionAvance;
         daoMaterial = implementacionMaterial;
-        daoAvanceMaterial = implmentacionAvanceMaterial;
+        daoAvanceMaterial = implementacionAvanceMaterial;
+        daoProveedor = implementacionProveedor;
 
         Spark.before((request, response) -> {
             response.type("application/json");
@@ -602,6 +605,133 @@ public class ProyectosAPIREST {
             List<AvanceMaterial> avanceMateriales = daoAvanceMaterial.obtenerTodos();
             return gson.toJson(avanceMateriales);
         });
+
+        Spark.get("/avancesmateriales/buscar/id/:id", (request, response) -> {
+           Long id = Long.parseLong(request.params(":id"));
+           AvanceMaterial avanceMaterial = daoAvanceMaterial.buscarPorId(id);
+           return gson.toJson(avanceMaterial);
+        });
+
+        Spark.get("/avancesmateriales/buscar/material/:id",(request, response) -> {
+            Long id = Long.parseLong(request.params(":id"));
+            List<AvanceMaterial> avancesMateriales = daoAvanceMaterial.buscarPorMaterial(id);
+            return gson.toJson(avancesMateriales);
+        });
+
+        Spark.get("/avancesmateriales/buscar/avance/:id",(request, response) -> {
+            Long id = Long.parseLong(request.params(":id"));
+            List<AvanceMaterial> avancesMateriales = daoAvanceMaterial.buscarPorAvance(id);
+            return gson.toJson(avancesMateriales);
+        });
+
+        Spark.post("/avancesmaterial/crear/:idAvance/:idMaterial/:cantidad", (request, response) -> {
+            Long idAvance = Long.parseLong(request.params(":idAvance"));
+            Long idMaterial = Long.parseLong(request.params(":idMaterial"));
+            Long cantidad = Long.parseLong(request.params(":cantidad"));
+            AvanceMaterial nuevo = daoAvanceMaterial.create(idAvance, idMaterial, cantidad);
+            return gson.toJson(nuevo);
+        });
+
+        Spark.put("/avancesmaterial/editar/:id", (request, response) -> {
+            Long id = Long.parseLong(request.params(":id"));
+            String body = request.body();
+            AvanceMaterial avanceMaterialActualizado = gson.fromJson(body, AvanceMaterial.class);
+            avanceMaterialActualizado.setId(id);
+            AvanceMaterial actualizado = daoAvanceMaterial.update(avanceMaterialActualizado);
+            if(actualizado != null){
+                return gson.toJson(actualizado);
+            }else{
+                response.status(404);
+                return "Avance-Material no encontrado";
+            }
+        })  ;
+
+        Spark.delete("/avancesmaterial/borrar/:id",(request, response) -> {
+            Long id = Long.parseLong(request.params(":id"));
+            boolean eliminado = daoAvanceMaterial.delete(id);
+            if(eliminado){
+                return "Avance-Material eliminado correctamente";
+            }else{
+                response.status(404);
+                return "Avance-Material no encontrado o usado en otra tabla";
+            }
+        });
+
+//        ===================================================================================================
+//        =============================================PROVEEDOR=============================================
+//        ===================================================================================================
+
+        Spark.get("/proveedores",(request, response) -> {
+           List<Proveedor> todos = daoProveedor.todos();
+           return gson.toJson(todos);
+        });
+
+        Spark.get("/proveedores/buscar/id/:id", (request, response) -> {
+           Long id = Long.parseLong(request.params(":id"));
+           Proveedor proveedor = daoProveedor.buscarPorId(id);
+           return gson.toJson(proveedor);
+        });
+
+        Spark.get("/proveedores/materiales/:idProv", (request, response) -> {
+            Long id = Long.parseLong(request.params(":idProv"));
+            List<Material> materiales = daoProveedor.obtenerMaterialesProveedor(id);
+            return gson.toJson(materiales);
+        });
+
+        Spark.put("/proveedores/materiales/:idProv/:idMat", (request, response) -> {
+           Long idProv = Long.parseLong(request.params("idProv"));
+           Long idMat = Long.parseLong(request.params("idMat"));
+           boolean estado = daoProveedor.agregarMaterialAProveedor(idProv, idMat);
+           if(estado){
+               return "Material agregado correctamente";
+           }else{
+               return "Material no agregado, revise su petición";
+           }
+        });
+
+        Spark.delete("/proveedores/materiales/:idProv/:idMat", (request, response) -> {
+            Long idProv = Long.parseLong(request.params("idProv"));
+            Long idMat = Long.parseLong(request.params("idMat"));
+            boolean estado = daoProveedor.eliminarMaterialAProveedor(idProv,idMat);
+            if(estado){
+                return "Material eliminado correctamente";
+            }else{
+                return "Material no eliminado, revise su petición";
+            }
+        });
+
+        Spark.post("/proveedores",(request, response) -> {
+            String body = request.body();
+            Proveedor nuevoProveedor = gson.fromJson(body, Proveedor.class);
+            Proveedor creado = daoProveedor.create(nuevoProveedor);
+            return gson.toJson(creado);
+        });
+
+        Spark.put("/proveedores/editar/:id", (request, response) -> {
+            Long id = Long.parseLong(request.params(":id"));
+            String body = request.body();
+            Proveedor proveedorActualizad = gson.fromJson(body, Proveedor.class);
+            proveedorActualizad.setId(id);
+           Proveedor actualizado = daoProveedor.update(proveedorActualizad);
+           if(actualizado != null){
+               return gson.toJson(actualizado);
+           }else{
+               response.status(404);
+               return "Proveedor no encontrado";
+           }
+        });
+
+        Spark.delete("/proveedores/borrar/:id", (request, response) -> {
+            Long id = Long.parseLong(request.params(":id"));
+            boolean eliminado = daoProveedor.delete(id);
+            if(eliminado){
+                return "Proveedor eliminado correctamente";
+            }else{
+                response.status(404);
+                return "Proveedor no encontrado o usado en otra tabla";
+            }
+        });
+
 
 //        ===================================================================================================
         //En caso de intentar un endpoint incorrecto

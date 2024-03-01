@@ -1,5 +1,7 @@
 package construcciones.entidades;
 
+import com.google.gson.annotations.Expose;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -11,18 +13,22 @@ public class Proveedor implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Expose
     private Long id;
 
     @Column(name = "nombre", length = 100, nullable = false)
+    @Expose
     private String nombre;
 
     @Column(name = "direccion", length = 200)
+    @Expose
     private String direccion;
 
     @Column(name = "telefono", length = 20)
+    @Expose
     private String telefono;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(
             name = "proveedor_material",
             joinColumns = {@JoinColumn(name = "id_proveedor")},

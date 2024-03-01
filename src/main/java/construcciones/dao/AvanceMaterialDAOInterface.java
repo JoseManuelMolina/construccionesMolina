@@ -11,7 +11,7 @@ public interface AvanceMaterialDAOInterface {
     List<AvanceMaterial> buscarPorMaterial(Long id);
     List<AvanceMaterial> buscarPorAvance(Long id);
 
-    AvanceMaterial create(AvanceMaterial avanceMaterial);
+    AvanceMaterial create(Long avanceId, Long materialId, Long cantidad);
     AvanceMaterial update(AvanceMaterial avanceMaterial);
     boolean delete(Long id);
 

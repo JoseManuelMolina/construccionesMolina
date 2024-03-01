@@ -1,6 +1,8 @@
 package construcciones.dao;
 
+import construcciones.entidades.Avance;
 import construcciones.entidades.AvanceMaterial;
+import construcciones.entidades.Material;
 import construcciones.utils.HibernateUtil;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
@@ -32,8 +34,8 @@ public class AvanceMaterialDAO implements AvanceMaterialDAOInterface {
     @Override
     public List<AvanceMaterial> buscarPorMaterial(Long id) {
         try(Session session = HibernateUtil.getSessionFactory().openSession()){
-            Query<AvanceMaterial> query = session.createQuery("from AvanceMaterial where material = :id");
-            List<AvanceMaterial> filtro = query.setParameter(":id", id).list();
+            Query<AvanceMaterial> query = session.createQuery("from AvanceMaterial where material.id = :id");
+            List<AvanceMaterial> filtro = query.setParameter("id", id).list();
             return filtro;
         }catch (Exception e){
             e.printStackTrace();
@@ -45,8 +47,8 @@ public class AvanceMaterialDAO implements AvanceMaterialDAOInterface {
     @Override
     public List<AvanceMaterial> buscarPorAvance(Long id) {
         try(Session session = HibernateUtil.getSessionFactory().openSession()){
-            Query<AvanceMaterial> query = session.createQuery("from AvanceMaterial where avance = :id");
-            List<AvanceMaterial> filtro = query.setParameter(":id", id).list();
+            Query<AvanceMaterial> query = session.createQuery("from AvanceMaterial where avance.id = :id");
+            List<AvanceMaterial> filtro = query.setParameter("id", id).list();
             return filtro;
         }catch (Exception e){
             e.printStackTrace();
@@ -54,12 +56,40 @@ public class AvanceMaterialDAO implements AvanceMaterialDAOInterface {
         }
     }
 
+    private Avance buscarAvance(Long id){
+        try(Session session = HibernateUtil.getSessionFactory().openSession()){
+            Avance avance = session.find(Avance.class, id);
+            session.close();
+            return avance;
+        }catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    private Material buscarMaterial(Long id){
+        try(Session session = HibernateUtil.getSessionFactory().openSession()){
+            Material material = session.find(Material.class, id);
+            session.close();
+            return material;
+        }catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     @Override
-    public AvanceMaterial create(AvanceMaterial avanceMaterial) {
+    public AvanceMaterial create(Long avanceId, Long materialId, Long cantidad) {
         Session session = HibernateUtil.getSessionFactory().openSession();
+        AvanceMaterial nuevo = new AvanceMaterial();
         try{
             session.beginTransaction();
-            session.save(avanceMaterial);
+            Material mat = this.buscarMaterial(materialId);
+            Avance av = this.buscarAvance(avanceId);
+            nuevo.setAvance(av);
+            nuevo.setMaterial(mat);
+            nuevo.setCantidad(cantidad);
+            session.save(nuevo);
             session.getTransaction().commit();
         }catch (PersistenceException e){
             e.printStackTrace();
@@ -67,7 +97,7 @@ public class AvanceMaterialDAO implements AvanceMaterialDAOInterface {
             return null;
         }
         session.close();
-        return avanceMaterial;
+        return nuevo;
     }
 
     @Override
@@ -107,4 +137,5 @@ public class AvanceMaterialDAO implements AvanceMaterialDAOInterface {
         }
         return true;
     }
+
 }
