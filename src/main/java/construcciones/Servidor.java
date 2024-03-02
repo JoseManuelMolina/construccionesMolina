@@ -10,7 +10,6 @@ public class Servidor {
 
         ProyectosAPIREST api = new ProyectosAPIREST(
                 new ProyectoDAO(),
-                new APIKeyDAO(),
                 new ClienteDAO(),
                 new AvanceDAO(),
                 new MaterialDAO(),

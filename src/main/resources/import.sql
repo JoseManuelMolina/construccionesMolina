@@ -80,7 +80,3 @@ INSERT INTO proveedor_material (id_proveedor, id_material) VALUES (5, 5);
 INSERT INTO proveedor_material (id_proveedor, id_material) VALUES (5, 1);
 INSERT INTO proveedor_material (id_proveedor, id_material) VALUES (1, 3);
 INSERT INTO proveedor_material (id_proveedor, id_material) VALUES (2, 4);
-
-
-INSERT INTO apikeys (activada, fecha_creada, api_key,usados, usos_disponibles) VALUES ( true,  '2024-02-03', '0tEOWr39mZd4Bqsm55f5', 0, 50);
-INSERT INTO apikeys (activada, fecha_creada, api_key,usados, usos_disponibles) VALUES ( true,  '2024-02-03', 'K17gKqlzm0xkclRVPgyk', 0, 50);

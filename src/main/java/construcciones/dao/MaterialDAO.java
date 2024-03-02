@@ -90,8 +90,17 @@ public class MaterialDAO implements MaterialDAOInterface{
 
     @Override
     public List<Proveedor> proveedoresDeMaterial(Long idMat) {
-        Material mat = this.buscarPorId(idMat);
-        return mat.getProveedores();
+        try(Session session = HibernateUtil.getSessionFactory().openSession()){
+            String hql ="SELECT DISTINCT p FROM Proveedor p " +
+                    "INNER JOIN p.materiales m " +
+                    "WHERE m.id = :idMat";
+            List<Proveedor> proveedores = session.createQuery(hql).setParameter("idMat", idMat).list();
+            return proveedores;
+        }catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
+
     }
 
     @Override

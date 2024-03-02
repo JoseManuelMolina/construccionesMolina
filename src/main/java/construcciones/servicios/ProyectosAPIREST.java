@@ -16,7 +16,6 @@ import java.util.List;
 public class ProyectosAPIREST {
 
     private ProyectoDAOInterface daoProyecto;
-    private APIKeyDAOInterface daoKey;
     private ClienteDAOInterface daoCliente;
     private AvanceDAOInterface daoAvance;
     private MaterialDAOInterface daoMaterial;
@@ -27,7 +26,6 @@ public class ProyectosAPIREST {
             .create();
 
     public ProyectosAPIREST(ProyectoDAOInterface implementacion,
-                            APIKeyDAOInterface implementacionKey,
                             ClienteDAOInterface implementacionCliente,
                             AvanceDAOInterface implementacionAvance,
                             MaterialDAOInterface implementacionMaterial,
@@ -35,7 +33,6 @@ public class ProyectosAPIREST {
                             ProveedorDAOInterface implementacionProveedor) {
         Spark.port(8080);
         daoProyecto = implementacion;
-        daoKey = implementacionKey;
         daoCliente = implementacionCliente;
         daoAvance = implementacionAvance;
         daoMaterial = implementacionMaterial;
@@ -289,82 +286,7 @@ public class ProyectosAPIREST {
         });
 
 
-//        ===================================================================================================
-//        ==============================================APIKEY===============================================
-//        ===================================================================================================
 
-        Spark.get("/keys", (request, response) -> {
-            List<APIKey> keys = daoKey.devolverTodas();
-            return gson.toJson(keys);
-        });
-
-        Spark.get("/keys/paginado/:pagina/:tam_pagina", (request, response) -> {
-            Integer pagina = Integer.parseInt(request.params(":pagina"));
-            Integer tam_pagina = Integer.parseInt(request.params(":tam_pagina"));
-
-            List<APIKey> keys = daoKey.devolverTodas(pagina,tam_pagina);
-            Long totalElementos = daoKey.numeroKeys();
-            RespuestaPaginacion<APIKey> paginaResultado = new RespuestaPaginacion<>(keys,totalElementos,pagina,tam_pagina);
-
-            return gson.toJson(paginaResultado);
-        });
-
-        Spark.get("/key/id/:id", (request, response) -> {
-            Long id = Long.parseLong(request.params(":id"));
-            APIKey key = daoKey.buscarId(id);
-            return gson.toJson(key);
-        });
-
-        Spark.put("/key/usar/:key", (request, response) -> {
-           String key = request.params(":key");
-           APIKey apiKey = daoKey.buscarPorKey(key);
-           daoKey.usarKey(apiKey.getId());
-           return gson.toJson(apiKey);
-        });
-
-        Spark.put("/key/activar/:id", (request, response) -> {
-            Long id = Long.parseLong(request.params(":id"));
-            daoKey.activarKey(id);
-            return gson.toJson(daoKey.buscarId(id));
-        });
-
-        Spark.put("/key/desactivar/:id", (request, response) -> {
-            Long id = Long.parseLong(request.params(":id"));
-            daoKey.desactivarKey(id);
-            return gson.toJson(daoKey.buscarId(id));
-        });
-
-        Spark.post("/key", (request, response) -> {
-            APIKey apiKey = daoKey.create();
-            return gson.toJson(apiKey);
-        });
-
-        Spark.put("/key/actualizar/:id", (request, response) -> {
-            Long id = Long.parseLong(request.params(":id"));
-            String body = request.body();
-            APIKey apiKeyActualizado = gson.fromJson(body, APIKey.class);
-            apiKeyActualizado.setId(id);
-            APIKey actualizado = daoKey.update(apiKeyActualizado);
-
-            if (actualizado != null){
-                return gson.toJson(actualizado);
-            } else{
-                response.status(404);
-                return "APIKey no encontrado";
-            }
-        });
-
-        Spark.delete("/key/:id",(request, response) -> {
-            Long id = Long.parseLong(request.params(":id"));
-            boolean eliminado = daoKey.delete(id);
-
-            if(eliminado){
-                return "APIKey eliminada correctamente";
-            }else{
-                response.status(404);
-                return "APIKey no encontrada";
-            }
-        });
 //        ===================================================================================================
 //        =============================================CLIENTES==============================================
 //        ===================================================================================================
@@ -763,7 +685,8 @@ public class ProyectosAPIREST {
         Spark.notFound((request, response) -> {
             
             return "{\"error\": \"Ruta no encontrada\",\"hint1\": \"/proyectos\"," +
-                    "\"hint2\": \"/proyectos/paginado/:pagina/:tam_pagina\",\"hint3\": \"/proyectos/id/:id\"}";
+                    "\"hint2\": \"/clientes\",\"hint3\": \"/avances\"," +
+                    "\"hint4\": \"/materiales\",\"hint5\": \"/proveedores\"}";
         });
     }
 }

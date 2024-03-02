@@ -79,7 +79,7 @@ public class ProyectoDAO implements ProyectoDAOInterface{
     @Override
     public List<Proyecto> devolverProyectosDeClienteLike(String busqueda) {
         Session session = HibernateUtil.getSessionFactory().openSession();
-        Query<Proyecto> query = session.createQuery("from Proyecto p where p.cliente like :busqueda", Proyecto.class);
+        Query<Proyecto> query = session.createQuery("from Proyecto p where p.cliente.razonSocial like :busqueda", Proyecto.class);
         List<Proyecto> filtro = query.setParameter("busqueda", "%"+busqueda+"%").list();
 
         session.close();
