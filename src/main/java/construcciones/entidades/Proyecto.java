@@ -47,7 +47,7 @@ public class Proyecto implements Serializable {
     private Cliente cliente;
 
 
-    @OneToMany(mappedBy = "proyecto", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "proyecto", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<Avance> avances = new ArrayList<>();
 
     public void agregarAvance(Avance avance){

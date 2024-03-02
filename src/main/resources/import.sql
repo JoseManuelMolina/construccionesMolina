@@ -55,6 +55,7 @@ INSERT INTO materiales (cantidad, coste, nombre) VALUES (150, 10.00, 'Lámparas'
 INSERT INTO materiales (cantidad, coste, nombre) VALUES (1000, 60.00, 'Cables eléctricos');
 
 INSERT INTO avance_material (cantidad, id_avance, id_material) VALUES (1500, 3, 2);
+INSERT INTO avance_material (cantidad, id_avance, id_material) VALUES (100, 6, 2);
 INSERT INTO avance_material (cantidad, id_avance, id_material) VALUES (60, 3, 1);
 INSERT INTO avance_material (cantidad, id_avance, id_material) VALUES (600, 5, 3);
 INSERT INTO avance_material (cantidad, id_avance, id_material) VALUES (20, 2, 10);

@@ -1,6 +1,7 @@
 package construcciones.dao;
 
 import construcciones.entidades.Avance;
+import construcciones.entidades.Material;
 
 import java.util.Date;
 import java.util.List;
@@ -14,6 +15,7 @@ public interface AvanceDAOInterface {
     List<Avance> buscarPorFechaPosterior(Date fecha);
 
     List<Avance> buscarPorPorcentaje(int porcentaje);
+    List<Material> obtenerMaterialesDeAvance(Long id);
 
     Avance create(Avance avance);
     Avance update(Avance avance);

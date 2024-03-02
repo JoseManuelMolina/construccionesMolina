@@ -1,13 +1,16 @@
 package construcciones.dao;
 
 import construcciones.entidades.Avance;
+import construcciones.entidades.AvanceMaterial;
 import construcciones.entidades.Material;
+import construcciones.entidades.Proveedor;
 import construcciones.utils.HibernateUtil;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 
 import javax.persistence.PersistenceException;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 public class MaterialDAO implements MaterialDAOInterface{
@@ -79,6 +82,37 @@ public class MaterialDAO implements MaterialDAOInterface{
             Query<Material> query = session.createQuery("from Material where cantidad > :can");
             List<Material> filtro = query.setParameter("can", cantidad).list();
             return filtro;
+        }catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    @Override
+    public List<Proveedor> proveedoresDeMaterial(Long idMat) {
+        Material mat = this.buscarPorId(idMat);
+        return mat.getProveedores();
+    }
+
+    @Override
+    public List<Avance> avancesDeMaterial(Long idMaterial) {
+        try(Session session = HibernateUtil.getSessionFactory().openSession()){
+            /*
+            String hql = "SELECT DISTINCT a FROM Avance a " +
+                    "INNER JOIN AvanceMaterial am ON a.id = am.avance.id " +
+                    "INNER JOIN Material m on m.id = am.material.id " +
+                    "WHERE m.id = :idMaterial";
+
+             */
+            String hql = "SELECT DISTINCT a " +
+                    "FROM Avance a " +
+                    "INNER JOIN a.avanceMateriales am " +
+                    "INNER JOIN am.material m " +
+                    "WHERE m.id = :idMaterial";
+            List<Avance> avances =  session.createQuery(hql).setParameter("idMaterial", idMaterial).list();
+
+            return avances;
+
         }catch (Exception e){
             e.printStackTrace();
             return null;

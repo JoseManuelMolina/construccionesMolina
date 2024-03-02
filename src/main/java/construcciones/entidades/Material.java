@@ -29,10 +29,10 @@ public class Material implements Serializable {
     @Expose
     private BigDecimal coste;
 
-    @OneToMany(mappedBy = "material", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "material", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<AvanceMaterial> avanceMateriales = new ArrayList<>();
 
-    @ManyToMany(mappedBy = "materiales")
+    @ManyToMany(mappedBy = "materiales", fetch = FetchType.LAZY)
     private List<Proveedor> proveedores = new ArrayList<>();
 
     public Material(Long id, String nombre, int cantidad, BigDecimal coste) {

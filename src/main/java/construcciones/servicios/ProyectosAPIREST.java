@@ -205,6 +205,13 @@ public class ProyectosAPIREST {
             
             return gson.toJson(numero);
         });
+
+        Spark.get("/proyectos/avances/:idProyecto", (request, response) -> {
+            Long id = Long.parseLong(request.params(":idProyecto"));
+            List<Avance> avances = daoProyecto.obtenerAvancesDeProyecto(id);
+            return gson.toJson(avances);
+        });
+
 //        ===================================================================================================
 //        Endpoint para crear un nuevo proyecto
         Spark.post("/proyectos",(request, response) -> {
@@ -494,6 +501,12 @@ public class ProyectosAPIREST {
             return gson.toJson(avances);
         });
 
+        Spark.get("/avances/materiales/:idAvance",(request, response) -> {
+            Long id = Long.parseLong(request.params(":idAvance"));
+            List<Material> materiales = daoAvance.obtenerMaterialesDeAvance(id);
+            return gson.toJson(materiales);
+        });
+
         Spark.post("/avances",(request, response) -> {
             String body = request.body();
             Avance nuevoAvance = gson.fromJson(body, Avance.class);
@@ -564,6 +577,18 @@ public class ProyectosAPIREST {
             int cantidad = Integer.parseInt(request.params(":can"));
             List<Material> materiales = daoMaterial.buscarPorCantidadSuperior(cantidad);
             return gson.toJson(materiales);
+        });
+
+        Spark.get("/materiales/proveedores/:idMat", (request, response) -> {
+            Long id = Long.parseLong(request.params(":idMat"));
+            List<Proveedor> proveedores = daoMaterial.proveedoresDeMaterial(id);
+            return gson.toJson(proveedores);
+        });
+
+        Spark.get("/materiales/avances/:idMat",(request, response) -> {
+            Long id = Long.parseLong(request.params(":idMat"));
+            List<Avance> avances = daoMaterial.avancesDeMaterial(id);
+            return gson.toJson(avances);
         });
 
         Spark.post("/materiales", (request, response) -> {

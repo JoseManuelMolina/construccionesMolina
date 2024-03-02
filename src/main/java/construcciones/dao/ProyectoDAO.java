@@ -2,6 +2,7 @@ package construcciones.dao;
 
 import construcciones.dto.ProyectoCompletoDTO;
 import construcciones.dto.ProyectoDTO;
+import construcciones.entidades.Avance;
 import construcciones.entidades.Proyecto;
 
 import java.util.ArrayList;
@@ -200,6 +201,17 @@ public class ProyectoDAO implements ProyectoDAOInterface{
             Double media = mediaCat.setParameter("busqueda", categoria).getSingleResult();
             session.close();
             return media;
+        }catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    @Override
+    public List<Avance> obtenerAvancesDeProyecto(Long idProyecto) {
+        try(Session session = HibernateUtil.getSessionFactory().openSession()){
+            Proyecto proyecto = session.get(Proyecto.class, idProyecto);
+            return proyecto.getAvances();
         }catch (Exception e){
             e.printStackTrace();
             return null;

@@ -2,6 +2,7 @@ package construcciones.dao;
 
 import construcciones.dto.ProyectoCompletoDTO;
 import construcciones.dto.ProyectoDTO;
+import construcciones.entidades.Avance;
 import construcciones.entidades.Proyecto;
 
 import java.util.Date;
@@ -25,7 +26,7 @@ public interface ProyectoDAOInterface {
     List<Proyecto> buscarPorNombre(String nombre);
     Double mediaPresupuestos();
     Double mediaPresupuestoCategoria(String categoria);
-
+    List<Avance> obtenerAvancesDeProyecto(Long idProyecto);
     Proyecto create(Proyecto proyecto);
     Proyecto update(Proyecto proyecto);
 

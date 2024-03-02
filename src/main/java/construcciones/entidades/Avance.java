@@ -36,7 +36,7 @@ public class Avance implements Serializable {
     @Expose
     private Proyecto proyecto;
 
-    @OneToMany(mappedBy = "avance", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "avance", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<AvanceMaterial> avanceMateriales = new ArrayList<>();
 
 

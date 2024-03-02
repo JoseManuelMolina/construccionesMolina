@@ -1,12 +1,15 @@
 package construcciones.dao;
 
 import construcciones.entidades.Avance;
+import construcciones.entidades.AvanceMaterial;
+import construcciones.entidades.Material;
 import construcciones.utils.HibernateUtil;
 import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 
 import javax.persistence.PersistenceException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -72,6 +75,18 @@ public class AvanceDAO implements AvanceDAOInterface{
             e.printStackTrace();
             return null;
         }
+    }
+
+    @Override
+    public List<Material> obtenerMaterialesDeAvance(Long id) {
+        List<Material> usados = new ArrayList<>();
+        Avance avance = this.buscarPorId(id);
+        List<AvanceMaterial> avancesMateriales = avance.getAvanceMateriales();
+        for (AvanceMaterial avanceMaterial: avancesMateriales) {
+            Material material = avanceMaterial.getMaterial();
+            usados.add(material);
+        }
+        return usados;
     }
 
     @Override
