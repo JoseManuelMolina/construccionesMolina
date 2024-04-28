@@ -5,13 +5,15 @@ import construcciones.dto.ProyectoDTO;
 import construcciones.entidades.Avance;
 import construcciones.entidades.Proyecto;
 
-import java.util.Date;
+import java.sql.Date;
 import java.util.List;
 
 public interface ProyectoDAOInterface {
 
     List<Proyecto> devolverTodos();
     List<Proyecto> devolverTodos(int pagina, int tamaño);
+
+    List<ProyectoDTO> devolverTodosDTO();
     Proyecto devolverMayorPresupuesto();
     Proyecto devolverMenorPresupuesto();
     List<Proyecto> devolverPresupuestoEntre(Double min, Double max);
@@ -28,6 +30,7 @@ public interface ProyectoDAOInterface {
     Double mediaPresupuestoCategoria(String categoria);
     List<Avance> obtenerAvancesDeProyecto(Long idProyecto);
     Proyecto create(Proyecto proyecto);
+    Proyecto createByDTO(ProyectoDTO proyecto);
     Proyecto update(Proyecto proyecto);
 
     boolean deleteById(Long id);

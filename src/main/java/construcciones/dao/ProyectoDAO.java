@@ -3,11 +3,12 @@ package construcciones.dao;
 import construcciones.dto.ProyectoCompletoDTO;
 import construcciones.dto.ProyectoDTO;
 import construcciones.entidades.Avance;
+import construcciones.entidades.Cliente;
 import construcciones.entidades.Proyecto;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
+import java.sql.Date;
 import java.util.List;
 
 import construcciones.utils.HibernateUtil;
@@ -18,6 +19,8 @@ import org.hibernate.query.Query;
 import javax.persistence.PersistenceException;
 
 public class ProyectoDAO implements ProyectoDAOInterface{
+
+
 
     public List<Proyecto> devolverTodos() {
         Session session = HibernateUtil.getSessionFactory().openSession();
@@ -41,6 +44,13 @@ public class ProyectoDAO implements ProyectoDAOInterface{
         session.close();
 
         return todos;
+    }
+
+    @Override
+    public List<ProyectoDTO> devolverTodosDTO() {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        List<ProyectoDTO> list = session.createQuery("select new construcciones.dto.ProyectoDTO(p.id,p.nombre, p.presupuesto, p.fechaInicio, p.plano, p.categoria, p.cliente.id) from Proyecto p", ProyectoDTO.class).list();
+        return list;
     }
 
     @Override
@@ -231,6 +241,27 @@ public class ProyectoDAO implements ProyectoDAOInterface{
         }
         session.close();
         return proyecto;
+    }
+
+    @Override
+    public Proyecto createByDTO(ProyectoDTO proyecto) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        try{
+            ClienteDAO clienteDao= new ClienteDAO();
+            Cliente cliente =  clienteDao.buscarPorId(proyecto.getId());
+            System.out.println("-------------------------------------------------");
+            System.out.println(proyecto);
+            System.out.println(cliente);
+            System.out.println("-------------------------------------------------");
+            //session.beginTransaction();
+            //session.save(proyectoNuevo);
+            session.getTransaction().commit();
+        }catch (PersistenceException e){
+            e.printStackTrace();
+            session.getTransaction().rollback();
+        }
+        session.close();
+        return null;
     }
 
     @Override

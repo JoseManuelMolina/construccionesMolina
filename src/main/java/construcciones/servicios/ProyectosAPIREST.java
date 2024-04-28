@@ -73,6 +73,13 @@ public class ProyectosAPIREST {
             return gson.toJson(proyectos);
         });
 
+//          Endpoint DTO Prueba
+        Spark.get("/proyectos/dto", (request, response) -> {
+            List<ProyectoDTO> proyectos = daoProyecto.devolverTodosDTO();
+
+            return gson.toJson(proyectos);
+        });
+
 //        Endpoint para obtener el mayor presupuesto
         Spark.get("/proyectos/mayorpresupuesto", (request, response) -> {
             Proyecto mayorPresupuesto = daoProyecto.devolverMayorPresupuesto();
@@ -110,7 +117,9 @@ public class ProyectosAPIREST {
             try{
                 String fechaStr = request.params(":fecha");
                 SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-                Date fecha = dateFormat.parse(fechaStr);
+                Date parsed = dateFormat.parse(fechaStr);
+                java.sql.Date fecha = new java.sql.Date(parsed.getTime());
+                //Date fecha2 = ;
 
                 List<Proyecto> proyectos = daoProyecto.iniciadosDespuesDe(fecha);
                 
@@ -128,7 +137,8 @@ public class ProyectosAPIREST {
             try{
                 String fechaStr = request.params(":fecha");
                 SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-                Date fecha = dateFormat.parse(fechaStr);
+                Date parsed = dateFormat.parse(fechaStr);
+                java.sql.Date fecha = new java.sql.Date(parsed.getTime());
 
                 List<Proyecto> proyectos = daoProyecto.iniciadosAntesDe(fecha);
                 
@@ -214,11 +224,23 @@ public class ProyectosAPIREST {
         Spark.post("/proyectos",(request, response) -> {
             String body = request.body();
             Proyecto nuevoProyecto = gson.fromJson(body, Proyecto.class);
-
+            System.out.println(body);
             Proyecto creado = daoProyecto.create(nuevoProyecto);
             
             return gson.toJson(creado);
         });
+
+//        // Endpoint crear proyecto con id cliente
+//        Spark.post("/proyectos/idCliente", (request, response) ->{
+//            String body = request.body();
+//            System.out.println("-------------------------------------------------");
+//            System.out.println("-------------------------------------------------");
+//            System.out.println(body);
+//            ProyectoDTO nuevoProyecto = gson.fromJson(body, ProyectoDTO.class);
+//            Proyecto creado = daoProyecto.createByDTO(nuevoProyecto);
+//
+//            return gson.toJson(creado);
+//        });
 
 //        Endpoint para editar un proyecto por su ID
         Spark.put("/proyectos/:id", (request, response) -> {
