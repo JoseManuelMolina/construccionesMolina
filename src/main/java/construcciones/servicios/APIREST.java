@@ -13,7 +13,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
-public class ProyectosAPIREST {
+public class APIREST {
 
     private ProyectoDAOInterface daoProyecto;
     private ClienteDAOInterface daoCliente;
@@ -25,12 +25,12 @@ public class ProyectosAPIREST {
             .excludeFieldsWithoutExposeAnnotation()
             .create();
 
-    public ProyectosAPIREST(ProyectoDAOInterface implementacion,
-                            ClienteDAOInterface implementacionCliente,
-                            AvanceDAOInterface implementacionAvance,
-                            MaterialDAOInterface implementacionMaterial,
-                            AvanceMaterialDAOInterface implementacionAvanceMaterial,
-                            ProveedorDAOInterface implementacionProveedor) {
+    public APIREST(ProyectoDAOInterface implementacion,
+                   ClienteDAOInterface implementacionCliente,
+                   AvanceDAOInterface implementacionAvance,
+                   MaterialDAOInterface implementacionMaterial,
+                   AvanceMaterialDAOInterface implementacionAvanceMaterial,
+                   ProveedorDAOInterface implementacionProveedor) {
         Spark.port(8080);
         daoProyecto = implementacion;
         daoCliente = implementacionCliente;

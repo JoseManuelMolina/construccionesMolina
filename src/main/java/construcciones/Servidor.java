@@ -1,14 +1,14 @@
 package construcciones;
 
 import construcciones.dao.*;
-import construcciones.servicios.ProyectosAPIREST;
+import construcciones.servicios.APIREST;
 
 
 public class Servidor {
 
     public static void main(String[] args) {
 
-        ProyectosAPIREST api = new ProyectosAPIREST(
+        APIREST api = new APIREST(
                 new ProyectoDAO(),
                 new ClienteDAO(),
                 new AvanceDAO(),
