@@ -13,6 +13,8 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
+import static spark.Spark.before;
+
 public class APIREST {
 
     private ProyectoDAOInterface daoProyecto;
@@ -32,6 +34,11 @@ public class APIREST {
                    AvanceMaterialDAOInterface implementacionAvanceMaterial,
                    ProveedorDAOInterface implementacionProveedor) {
         Spark.port(8080);
+
+        // Configuración del filtro CORS
+        enableCORS("*", "*", "*");
+
+
         daoProyecto = implementacion;
         daoCliente = implementacionCliente;
         daoAvance = implementacionAvance;
@@ -39,9 +46,12 @@ public class APIREST {
         daoAvanceMaterial = implementacionAvanceMaterial;
         daoProveedor = implementacionProveedor;
 
-        Spark.before((request, response) -> {
+        before((request, response) -> {
             response.type("application/json");
         });
+
+
+
 
 //        ===================================================================================================
 //        ============================================EXCEPTION==============================================
@@ -709,6 +719,15 @@ public class APIREST {
             return "{\"error\": \"Ruta no encontrada\",\"hint1\": \"/proyectos\"," +
                     "\"hint2\": \"/clientes\",\"hint3\": \"/avances\"," +
                     "\"hint4\": \"/materiales\",\"hint5\": \"/proveedores\"}";
+        });
+    }
+
+    // Método para habilitar CORS
+    private static void enableCORS(String origin, String methods, String headers) {
+        before((request, response) -> {
+            response.header("Access-Control-Allow-Origin", origin);
+            response.header("Access-Control-Request-Method", methods);
+            response.header("Access-Control-Allow-Headers", headers);
         });
     }
 }
