@@ -36,7 +36,7 @@ public class APIREST {
         Spark.port(8080);
 
         // Configuración del filtro CORS
-        enableCORS("*", "*", "*");
+        enableCORS();
 
 
         daoProyecto = implementacion;
@@ -723,11 +723,25 @@ public class APIREST {
     }
 
     // Método para habilitar CORS
-    private static void enableCORS(String origin, String methods, String headers) {
+    private static void enableCORS() {
+        Spark.options("/*", (request, response) -> {
+            String accessControlRequestHeaders = request.headers("Access-Control-Request-Headers");
+            if (accessControlRequestHeaders != null) {
+                response.header("Access-Control-Allow-Headers", accessControlRequestHeaders);
+            }
+
+            String accessControlRequestMethod = request.headers("Access-Control-Request-Method");
+            if (accessControlRequestMethod != null) {
+                response.header("Access-Control-Allow-Methods", accessControlRequestMethod);
+            }
+
+            return "OK";
+        });
+
         before((request, response) -> {
-            response.header("Access-Control-Allow-Origin", origin);
-            response.header("Access-Control-Request-Method", methods);
-            response.header("Access-Control-Allow-Headers", headers);
+            response.header("Access-Control-Allow-Origin", "*");
+            response.header("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE,OPTIONS");
+            response.header("Access-Control-Allow-Headers", "Content-Type,Authorization");
         });
     }
 }
